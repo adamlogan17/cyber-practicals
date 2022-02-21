@@ -9,35 +9,100 @@ public class SDES {
 		
 		//System.out.println("key = " + keyGeneration(k));
 		
-		System.out.println("end =" + encrypt(plain, k));
+		System.out.println("end = " + encrypt(plain, k));
+		
+		System.out.println(dectypt("y", k));
 	}
 	
-	public static String encrypt(String plaintxt, String key) {
-		String cyphertxt =  "";
+	public static String dectypt(String cyphertxt, String key) {
+		String plaintxt = "";
+		
 		int IP[] = { 2, 6, 3, 1, 4, 8, 5, 7};
+		int IpMinus1[] = {4, 1, 3, 5, 7, 2, 8, 6};
 		
 		String[] keys = keyGeneration(key);
 		
 		String k1 = keys[0];
 		String k2 = keys[1];
+		System.out.println("k1 = " + k1);
+		System.out.println("k2 = " + k2);
 		
-		for(int i=0; i<plaintxt.length(); i++) {
-			String currentChr = Integer.toBinaryString((int) plaintxt.charAt(i));
+		for(int i=0; i<cyphertxt.length(); i++) {
+			String currentChr = Integer.toBinaryString((int) cyphertxt.charAt(i));
 
+			currentChr = addZrs(currentChr, 8);
 			
-			for(int j=0; j<(8-currentChr.length()); j++) {
-				currentChr = "0" + currentChr;
-			}
+			System.out.println("currentChr = " + currentChr);
 			
 			String postIP = permute(currentChr, IP);
 			
 			System.out.println("IP = " + postIP);
 			
-			String postFRK1 = f(postIP.substring(0,4), k1);
+			String postFRK2 = f(postIP.substring(4,8), k2);
+			
+			System.out.println("postFRK2 = " + postFRK2);
+			
+			String postFk2 = xoring(postIP.substring(0,4), postFRK2) + postIP.substring(4,8);
+			
+			System.out.println("postFk2 = " + postFk2);
+			
+			String postSwap = postFk2.substring(4,8) + postFk2.substring(0,4);
+			
+			System.out.println("postSwap = " + postSwap);
+			
+			// still need to do frk2 and fk2
+			String postFRK1 = f(postSwap.substring(4,8), k1);
+			
+			System.out.println("postFRK1 = " + postFRK2);
+			
+			String postFk1 = xoring(postSwap.substring(0,4), postFRK1) + postSwap.substring(4,8);
+			
+			System.out.println("postFk1 = " + postFk1);
+			
+			// still need to do ip-1
+			String postIpMinus1 = permute(postFk1, IpMinus1);
+			
+			System.out.println("postIpMinus1/result = " + addZrs(postIpMinus1, 8));
+			
+			System.out.println();
+			System.out.println();
+			
+			plaintxt += Character.toString(Integer.parseInt(postIpMinus1, 2));
+			//plaintxt += Character.toString(Integer.parseInt(currentChr, 2));
+		}
+		
+		
+		return plaintxt;
+	}
+	
+	public static String encrypt(String plaintxt, String key) {
+		String cyphertxt =  "";
+		int IP[] = { 2, 6, 3, 1, 4, 8, 5, 7};
+		int IpMinus1[] = {4, 1, 3, 5, 7, 2, 8, 6};
+		
+		String[] keys = keyGeneration(key);
+		
+		String k1 = keys[0];
+		String k2 = keys[1];
+		System.out.println("k1 = " + k1);
+		System.out.println("k2 = " + k2);
+		
+		for(int i=0; i<plaintxt.length(); i++) {
+			String currentChr = Integer.toBinaryString((int) plaintxt.charAt(i));
+
+			currentChr = addZrs(currentChr, 8);
+			
+			System.out.println("currentChr = " + currentChr);
+			
+			String postIP = permute(currentChr, IP);
+			
+			System.out.println("IP = " + postIP);
+			
+			String postFRK1 = f(postIP.substring(4,8), k1);
 			
 			System.out.println("postFRK1 = " + postFRK1);
 			
-			String postFk1 = xoring(postIP.substring(4,8), postFRK1) + postIP.substring(0,4);
+			String postFk1 = xoring(postIP.substring(0,4), postFRK1) + postIP.substring(4,8);
 			
 			System.out.println("postFk1 = " + postFk1);
 			
@@ -46,10 +111,24 @@ public class SDES {
 			System.out.println("postSwap = " + postSwap);
 			
 			// still need to do frk2 and fk2
+			String postFRK2 = f(postSwap.substring(4,8), k2);
+			
+			System.out.println("postFRK2 = " + postFRK2);
+			
+			String postFk2 = xoring(postSwap.substring(0,4), postFRK2) + postSwap.substring(4,8);
+			
+			System.out.println("postFk2 = " + postFk2);
 			
 			// still need to do ip-1
+			String postIpMinus1 = permute(postFk2, IpMinus1);
+			
+			System.out.println("postIpMinus1/result = " + addZrs(postIpMinus1, 8));
 			
 			System.out.println();
+			System.out.println();
+			
+			cyphertxt += Character.toString(Integer.parseInt(postIpMinus1, 2));
+			//cyphertxt += Character.toString(Integer.parseInt(currentChr, 2));
 		}
 		
 		return cyphertxt;
@@ -69,31 +148,27 @@ public class SDES {
 	    		{ 3, 0, 1, 0},
 	    		{ 2, 1, 0, 3}};
 	    
-	    System.out.println("R = " + R);
+	    //System.out.println("R = " + R);
 		
 		String postEP = permute(R, EP);
 		
-		for(int j=0; j<(8-postEP.length()); j++) {
-			postEP = "0" + postEP;
-		}
+		postEP = addZrs(postEP, 8);
 		
-		System.out.println("EP = " + postEP);
+		//System.out.println("(In f) EP = " + postEP);
 		
 		String postXor = xoring(postEP, k);
 		
-		System.out.println("XOR = " + postXor);
+		//System.out.println("(In f) XOR = " + postXor);
 		
 		String postSBox = sBoxing(postXor.substring(0, 4), S0) + sBoxing(postXor.substring(4, 8), S1);
 		
-		System.out.println("postSBox = " + postSBox);
+		//System.out.println("(In f) postSBox = " + postSBox);
 		
 		String postP4 = permute(postSBox, P4);
 		
-		for(int j=0; j<(4-postP4.length()); j++) {
-			postP4 = "0" + postP4;
-		}
+		postP4 = addZrs(postP4, 4);
 		
-		System.out.println("postP4 = " + postP4);
+		//System.out.println("(In f) postP4 = " + postP4);
 		
 		return postP4;
 	}
@@ -105,15 +180,13 @@ public class SDES {
 		
 		int col = Integer.parseInt(Character.toString(input.charAt(1)) + Character.toString(input.charAt(2)), 2);
 		
-		//System.out.println("col = " + col);
-		//System.out.println("row = " + row);
-		//System.out.println("s = " + S[row][col]);
+		//System.out.println("(in sboxing) col = " + col);
+		//System.out.println("(in sboxing) row = " + row);
+		//System.out.println("(in sboxing) s = " + S[row][col]);
 		
 		result = Integer.toBinaryString(S[row][col]);
 		
-		for(int j=0; j<(2-result.length()); j++) {
-			result = "0" + result;
-		}
+		result = addZrs(result, 2);
 		
 		return result;
 	}
@@ -160,9 +233,7 @@ public class SDES {
 		keys[1] = permute(firstHalf + secondHalf, p8);
 		
 		for(int i=0; i<keys.length; i++) {
-			for(int j=0; j<(8-keys[i].length()); j++) {
-				keys[i] = "0" + keys[i];
-			}
+			keys[i] = addZrs(keys[i], 8);
 		}
 		
 		return keys;
@@ -204,5 +275,13 @@ public class SDES {
     	result = Integer.toBinaryString(y);
 
     	return result;
+    }
+    
+    public static String addZrs(String binaryStr, int maxLngth) {
+    	int orgLngth = binaryStr.length();
+		for(int j=0; j<(maxLngth-orgLngth); j++) {
+			binaryStr = "0" + binaryStr;
+		}
+    	return binaryStr;
     }
 }
