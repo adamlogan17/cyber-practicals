@@ -34,7 +34,7 @@ public class SDesArray {
 		
 		//System.out.println("end = " + encrypt(plain, k));
 	}
-
+/*
 	public static String encrypt(String plaintxt, int[] key) {
 		String cyphertxt =  "";
 		int IP[] = { 2, 6, 3, 1, 4, 8, 5, 7};
@@ -148,7 +148,7 @@ public class SDesArray {
 		result = addZrs(result, 2);
 		
 		return result;
-	}
+	}*/
 	
 	/**
 	 * @param a - one of the binary strings (must be same length as b)
