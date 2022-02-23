@@ -1,36 +1,39 @@
 package AsymmetricEncryption;
 
-import java.math.BigInteger;
-
 public class RSA {
 
 	public static void main(String[] args) {
 		int[][] keys = keyGeneration(19, 7, 31);
+		System.out.println("------------");
 		
 		int[][] keys2 = keyGeneration(41, 67, 83);
+		
+		//System.out.println(gcd(2640, 83));
 		
 		//System.out.println(extEuclid(108, 31));
 
 		int[] encyption = encrypt(keys[0], "U"); 
+		System.out.print("Encrypt = ");
 		prntArry(encyption);
-		//System.out.println("Decrypt: ");
+		System.out.print("Decrypt = ");
 		int[] decryption = decrypt(keys[1], encyption);
 		prntArry(decryption);
 		
 		System.out.println("------------");
+		System.out.print("Encrypt = ");
 		int[] encyption2 = encrypt(keys2[0], "ENIGMACODE"); 
 		prntArry(encyption2);
-		//System.out.println("Decrypt: ");
-		int[] decryption2 = decrypt(keys[1], encyption2);
+		System.out.print("Decrypt = ");
+		int[] decryption2 = decrypt(keys2[1], encyption2);
 		prntArry(decryption2);
-		
+		System.out.println("------------");
 	}
 	
 	public static int[] encrypt(int[] publicKey, String plaintxt) {
 		int[] cyphertxt = new int[plaintxt.length()];
-		
 		String e = Integer.toBinaryString(publicKey[0]);
 		int n = publicKey[1];
+		//System.out.println("n = " + n);
 		
 		for(int i=0; i<plaintxt.length(); i++) {
 			int crrtChr = plaintxt.charAt(i) - 64;
@@ -38,13 +41,9 @@ public class RSA {
 			
 			//System.out.println("e = " + publicKey[0]);
 			
-			//BigInteger C = new BigInteger("1");
 			int C = 1;
 			
-			//BigInteger M = new BigInteger("5149713131545");
 			int M = crrtChr; // I think this is where the problem is
-			
-			//BigInteger bigN = BigInteger.valueOf(n);
 			
 			//System.out.println("e = " + e);
 			
@@ -52,9 +51,7 @@ public class RSA {
 				char ej = e.charAt(j);
 				
 				C = (int) (Math.pow(C, 2) % n);
-				//C = C.pow(2).mod(bigN);
 				if(ej == '1') {
-					//C = C.multiply(M).mod(bigN);
 					C = (C*M) % n;
 				}
 			}
@@ -115,6 +112,8 @@ public class RSA {
 			int n = p * q;
 			
 			int w = (p-1) * (q-1);
+			//System.out.println("p = " + p);
+			//System.out.println("q = " + q);
 			//System.out.println("w = " + w);
 			
 			int d = w;
@@ -169,7 +168,13 @@ public class RSA {
 	 * 
 	 */
 	public static int extEuclid(int a, int b) {
-		int x = 0;
+		int xi = 0;
+		int xi_1 = 0;
+		int xi_2 = 1;
+		
+		int yi = 0;
+		int yi_1 = 1;
+		int yi_2 = 0;
 		
 		// the '_' is meant to represent '-' therefore the below 
 		// varaibles should read as "ri-2" and "ri-1" respectively
@@ -177,21 +182,38 @@ public class RSA {
 		int ri_1 = b;
 		
 		int vi = (int) Math.floor(ri_2/ri_1);
+		//System.out.println("vi = " + vi);
 		int ri = ri_2 - (vi * ri_1);
-		
+		//System.out.println("ri = " + ri);
+	
 		while(ri > 1) {
+			xi = xi_2 - (vi*xi_1);
+			yi = yi_2 - (vi*yi_1);
+			
 			ri_2 = ri_1;
 			ri_1 = ri;
+			
+			xi_2 = xi_1;
+			xi_1 = xi;
+			
+			yi_2 = yi_1;
+			yi_1 = yi;
+			
 			vi = (int) Math.floor(ri_2/ri_1);
+			//System.out.println("vi = " + vi);
 			ri = ri_2 - (vi * ri_1);
+			//System.out.println("ri = " + ri);
+
+			//System.out.println("xi-1 = " + xi_1);
+			//System.out.println("xi-2 = " + xi_2);
+			//System.out.println("yi-1 = " + yi_1);
+			//System.out.println("yi-2 = " + yi_2);
+			
+			//System.out.println("check x+y = " + ((a*xi_2 + b*yi_2) - ((a*xi_1+yi_1*b)*vi)));
 		}
-		
-		int y = vi; /* there is no need for this declaration but 
-					   it is here for better understanding and to 
-					   link it back into the context of ax + by = 1 */
-		x = ((y * a) + 1) / b;
-		
-		return x;
+		yi = yi_2 - (vi*yi_1);
+		//System.out.println("e = " + yi);
+		return yi;
 	}
 	
     public static void prntArry(int[] k) {
