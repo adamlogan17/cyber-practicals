@@ -29,6 +29,7 @@ public class RSA {
 		System.out.println("------------");
 	}
 	
+	
 	public static int[] encrypt(int[] publicKey, String plaintxt) {
 		int[] cyphertxt = new int[plaintxt.length()];
 		String e = Integer.toBinaryString(publicKey[0]);
