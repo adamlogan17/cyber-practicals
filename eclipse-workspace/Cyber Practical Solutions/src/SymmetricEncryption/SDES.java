@@ -1,4 +1,4 @@
-package DES;
+package SymmetricEncryption;
 
 public class SDES {
 
@@ -9,12 +9,18 @@ public class SDES {
 		
 		//System.out.println("key = " + keyGeneration(k));
 		
-		System.out.println("end = " + encrypt(plain, k));
+		//System.out.println("end = " + encrypt(plain, k));
 		
-		System.out.println(dectypt("y", k));
+		//System.out.println(decrypt("y", k));
+	    int S0[][] = {{ 1, 0, 3, 2},
+	    		{ 3, 2, 1, 0},
+	    		{ 0, 2, 1,3},
+	    		{ 3, 1, 3, 2}};
+	    
+		System.out.println(sBoxing("10011101", S0));
 	}
 	
-	public static String dectypt(String cyphertxt, String key) {
+	public static String decrypt(String cyphertxt, String key) {
 		String plaintxt = "";
 		
 		int IP[] = { 2, 6, 3, 1, 4, 8, 5, 7};

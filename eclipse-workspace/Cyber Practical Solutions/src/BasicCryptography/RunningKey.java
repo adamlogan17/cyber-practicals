@@ -8,9 +8,9 @@ public class RunningKey {
 				'M', 'N', 'O', 'P', 'Q', 'R', 'S', 
 				'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 		
-		String key = "PACKET";
+		String key = "SKY";
 		
-		System.out.println(encrypt("NETWORK", alphabet1, key));
+		System.out.println(encrypt("WORM", alphabet1, key));
 		
 		//System.out.println(decrypt(encrypt("NETWORK", alphabet1, key), alphabet1, key));
 	}

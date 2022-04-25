@@ -7,8 +7,8 @@ public class HillCipher {
 				{8, 17, 23},
 				{19, 13, 5}};
 		
-		float[][] key2 = {{7, 11},
-				{8, 11}};
+		float[][] key2 = {{8, 3},
+				{5, 2}};
 		
 		char[] alphabet1 = {'A', 'B', 'C', 'D', 'E',
 				'F', 'G', 'H', 'I', 'J', 'K', 'L', 
@@ -17,8 +17,8 @@ public class HillCipher {
 		
 		//String cypher2 = encrypt("PAY", alphabet1, key2);
 		
-		String cypher = encrypt("ENIGMACODE", alphabet1, key);
-		//String cypher = encrypt("SECRET", alphabet1, key2);
+		//String cypher = encrypt("ENIGMACODE", alphabet1, key);
+		String cypher = encrypt("MYSECRET", alphabet1, key2);
 		
 		System.out.println(cypher);
 		

@@ -3,8 +3,8 @@ package BasicCryptography;
 public class Transpose {
 
 	public static void main(String[] args) {
-		int[] key = {2,1,4,3};
-		System.out.println(transpose("PUBLICKEYPAD", key));
+		int[] key = {3,2,4,1};
+		System.out.println(transpose("ASYMMETRIC", key));
 		
 		// to decrypt just use the 'transpose' function again
 	}

@@ -1,9 +1,10 @@
-package DES;
+package SymmetricEncryption;
 
 import java.util.Arrays;
 
 public class SDesArray {
 	public static void main(String[] args) {
+		/*
 		String plain = "ENIGMACODE";
 		
 		String kStr = "1111011000";
@@ -16,7 +17,7 @@ public class SDesArray {
 		for(int i: x) {
 			System.out.print(i);
 		}*/
-		
+		/*
 		System.out.print("key = ");
 		prntArry(k);
 		
@@ -29,11 +30,17 @@ public class SDesArray {
 		System.out.print("k2 = ");
 		for(String i: keys[1]) {
 			System.out.print(i);
-		}
+		}*/
 		//System.out.println("key = " + keyGeneration(k));
 		
 		//System.out.println("end = " + encrypt(plain, k));
-	}
+		
+		 int []ip = {1,5,2,0,3,7,4,6};
+		 String[] in = {"1", "0", "1", "0", "0", "0", "1", "1"};
+		 String[] out = permute(in, ip);
+		 prntArry(out);
+ 	}
+	
 /*
 	public static String encrypt(String plaintxt, int[] key) {
 		String cyphertxt =  "";

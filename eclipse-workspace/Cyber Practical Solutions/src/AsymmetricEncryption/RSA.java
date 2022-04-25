@@ -3,6 +3,7 @@ package AsymmetricEncryption;
 public class RSA {
 
 	public static void main(String[] args) {
+		
 		int[][] keys = keyGeneration(19, 7, 31);
 		System.out.println("------------");
 		
@@ -27,6 +28,18 @@ public class RSA {
 		int[] decryption2 = decrypt(keys2[1], encyption2);
 		prntArry(decryption2);
 		System.out.println("------------");
+		
+		
+		System.out.println("gcd = " + gcd(15, 54));
+		
+		System.out.println("extended euclid = " + extEuclid(660, 41));
+		
+		int[] publicKey = {37, 143};
+		int[] prvKey = {13, 143};
+		int[] cyphrTxt = {57, 6, 1};
+		prntArry(decrypt(prvKey, cyphrTxt));
+		
+		prntArry(encrypt(publicKey, "EFA"));
 	}
 	
 	
@@ -186,6 +199,10 @@ public class RSA {
 		//System.out.println("vi = " + vi);
 		int ri = ri_2 - (vi * ri_1);
 		//System.out.println("ri = " + ri);
+		
+		if(ri < 1) {
+			return -1;
+		}
 	
 		while(ri > 1) {
 			xi = xi_2 - (vi*xi_1);
