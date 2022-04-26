@@ -13,6 +13,15 @@ public class ParameterBased {
 		ArrayList<Integer> ans2 = statAnomalyIDS(nums, 0.006, 61.0, 130.0);
 		prntArryLst(ans2);
 		
+		System.out.println();
+		ArrayList<Integer> ans4 = statAnomalyIDS(nums, 0.006, 61.0, 130.0, 4);
+		prntArryLst(ans4);
+		
+		System.out.println();
+		int[] nums2 = {190, 127, 48, 108, 122, 215, 75, 145, 54, 69}; 
+		ArrayList<Integer> ans3 = statAnomalyIDS(nums2, 0.005, 56.0, 115.0);
+		prntArryLst(ans3);
+		
 		// make a statAnomalyIDS which rounds up at every stage based on a parameter
 	}
 
@@ -65,6 +74,38 @@ public class ParameterBased {
 				anomalies.add(i + 1);
 			}
 			//System.out.println();
+		}
+		return anomalies;
+	}
+	
+	// the rounding may not be completely exact
+	private static ArrayList<Integer> statAnomalyIDS(int[] sizes, double threshold, double sd, double mean, int dp) {
+		ArrayList<Integer> anomalies = new ArrayList<Integer>();
+
+		System.out.println("mean = " + mean);
+		for(int i=0; i<sizes.length; i++) {
+			double diff = mean - sizes[i];
+			diff = Math.round(diff * Math.pow(10, dp)) / Math.pow(10, dp);
+			System.out.println((i + 1) + " diff = " + diff);
+			
+			double diffSigma = diff/sd;
+			diffSigma = Math.round(diffSigma * Math.pow(10, dp)) / Math.pow(10, dp);
+			System.out.println((i + 1) + " afterSd = " + diffSigma);
+			
+			double sqrd = diffSigma * diffSigma;
+			sqrd = Math.round(sqrd * Math.pow(10, dp)) / Math.pow(10, dp);
+			System.out.println((i + 1) + " sqrd = " + sqrd);
+			
+			double beforeExp = sqrd * -0.5;
+			beforeExp = Math.round(beforeExp * Math.pow(10, dp)) / Math.pow(10, dp);
+			
+			double prob = Math.exp(beforeExp) * getNormalDist(sd);
+			prob = Math.round(prob * Math.pow(10, dp)) / Math.pow(10, dp);
+			System.out.println((i + 1) + " = " + prob);
+			if(prob < threshold) {
+				anomalies.add(i + 1);
+			}
+			System.out.println();
 		}
 		return anomalies;
 	}
