@@ -7,12 +7,18 @@ public class HillCipher {
 				{8, 17, 23},
 				{19, 13, 5}};
 		
+		float[][] key2 = {{8, 3},
+				{5, 2}};
+		
 		char[] alphabet1 = {'A', 'B', 'C', 'D', 'E',
 				'F', 'G', 'H', 'I', 'J', 'K', 'L', 
 				'M', 'N', 'O', 'P', 'Q', 'R', 'S', 
 				'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 		
-		String cypher = encrypt("ENIGMACODE", alphabet1, key);
+		//String cypher2 = encrypt("PAY", alphabet1, key2);
+		
+		//String cypher = encrypt("ENIGMACODE", alphabet1, key);
+		String cypher = encrypt("MYSECRET", alphabet1, key2);
 		
 		System.out.println(cypher);
 		
@@ -26,7 +32,7 @@ public class HillCipher {
 		String cypherText = "";		
 		
 		// padding and creating matching numbers to the domain
-		int padLength = plaintxt.length() % 3;
+		int padLength = plaintxt.length() % key[0].length;
 		if(padLength != 0) {
 			for(int i=0; i<=padLength; i++) {
 				plaintxt += "X";
@@ -35,35 +41,31 @@ public class HillCipher {
 		
 		System.out.println(plaintxt.length());
 		
-		int keyRow = 0;
-		
-		for(int i=0; i<plaintxt.length(); i = i+3) {
-			int[] plainVal = new int[3];
+		for(int i=0; i<plaintxt.length(); i = i+key[0].length) {
+			int[] plainVal = new int[key[0].length];
 
 			for(int index=0; index<plainVal.length; index++) {
 			    for(int j =0 ; j<domain.length; j++) {
-			    	System.out.println("i = " + i);
-			    	System.out.println("index = " + index);
-			    	System.out.println("char = " + plaintxt.charAt(index + i));
+			    	//System.out.println("i = " + i);
+			    	//System.out.println("index = " + index);
+			    	//System.out.println("char = " + plaintxt.charAt(index + i));
 			    	if(domain[j] == plaintxt.charAt(index + i)) {
 			    		plainVal[index] = j;
 			    	}
 			    }
 			}
 
-		    
-			if(keyRow % 3 == 0) {
-				keyRow=0;
+			for(int keyRow = 0; keyRow<plainVal.length; keyRow++) {
+				int newVal = 0;
+				for(int j=0; j<plainVal.length; j++) {
+					//System.out.println("plainVal[j] = " + plainVal[j]);
+					//System.out.println("key[keyRow][j] = " + key[keyRow][j]);
+					newVal += plainVal[j]*key[keyRow][j];
+					//System.out.println("newVal = " + newVal);
+					//System.out.println();
+				}
+				cypherText += domain[newVal % 26];
 			}
-			//{plaintxt.charAt(i), plaintxt.charAt(i+1), plaintxt.charAt(i+2)};
-			int newVal = 0;
-			for(int j=0; j<plainVal.length; j++) {
-				newVal += plainVal[j]*key[keyRow][j];
-			}
-			
-			keyRow++;
-			// some how get the below line to run for each char in the plaintxt
-			cypherText += domain[newVal % 26];
 		}
 		
 		return cypherText;

@@ -10,7 +10,7 @@ public class CaesarCipher {
 				'M', 'N', 'O', 'P', 'Q', 'R', 'S', 
 				'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 		
-		String cypher = encrypt("ENIGMACODE", alphabet1, key);
+		String cypher = encrypt("FBEHUVHFXULWB", alphabet1, key);
 		
 		System.out.println(cypher);
 		
@@ -18,6 +18,7 @@ public class CaesarCipher {
 		
 		System.out.println(plaintext);
 
+		System.out.println(decrypt("E", alphabet1, 7));
 	}
 	
 	public static String encrypt(String plaintxt, char[] domain, int key) {
