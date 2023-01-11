@@ -3,7 +3,7 @@ package AsymmetricEncryption;
 public class RSA {
 
 	public static void main(String[] args) {
-		
+		/*
 		int[][] keys = keyGeneration(19, 7, 31);
 		System.out.println("------------");
 		
@@ -33,13 +33,33 @@ public class RSA {
 		System.out.println("gcd = " + gcd(15, 54));
 		
 		System.out.println("extended euclid = " + extEuclid(660, 41));
+		*/
 		
+		/*
+		System.out.println("gcd = " + gcd(13, 41));
+		System.out.println();
+		System.out.println("extended euclid = " + extEuclid(660, 41));
+		System.out.println();
 		int[] publicKey = {37, 143};
 		int[] prvKey = {13, 143};
 		int[] cyphrTxt = {57, 6, 1};
-		prntArry(decrypt(prvKey, cyphrTxt));
-		
+		prntArry(decrypt(publicKey, cyphrTxt));
+		System.out.println();
 		prntArry(encrypt(publicKey, "EFA"));
+		*/
+		
+		System.out.println("gcd = " + gcd(12, 15));
+		System.out.println();
+		System.out.println("relatively prime = " + (gcd(7, 23)==1));
+		System.out.println();
+		System.out.println("extended euclid = " + extEuclid(120, 13));
+		System.out.println();
+		
+		/*
+		int[] key = {11, 2491};
+		int[] cyphrTxt = {1874, 437, 605, 632};
+		prntArry(decrypt(key, cyphrTxt));
+		*/
 	}
 	
 	
@@ -51,15 +71,15 @@ public class RSA {
 		
 		for(int i=0; i<plaintxt.length(); i++) {
 			int crrtChr = plaintxt.charAt(i) - 64;
-			//System.out.println("crrtChr = " + crrtChr);
+			System.out.println("crrtChr = " + crrtChr);
 			
-			//System.out.println("e = " + publicKey[0]);
+			System.out.println("e = " + publicKey[0]);
 			
 			int C = 1;
 			
-			int M = crrtChr; // I think this is where the problem is
+			int M = crrtChr;
 			
-			//System.out.println("e = " + e);
+			System.out.println("e = " + e);
 			
 			for(int j=0; j<e.length(); j++) {
 				char ej = e.charAt(j);
@@ -68,10 +88,11 @@ public class RSA {
 				if(ej == '1') {
 					C = (C*M) % n;
 				}
+				System.out.println(j + " = " + C);
 			}
 			
-			//System.out.println("C = " + C);
-			//System.out.println();
+			System.out.println("C = " + C);
+			System.out.println();
 			cyphertxt[i] = C;
 		}
 		
@@ -88,17 +109,17 @@ public class RSA {
 			int crrtChr = cyphertxt[i];
 			//System.out.println("crrtChr = " + crrtChr);
 			
-			//System.out.println("d = " + privateKey[0]);
+			System.out.println("d = " + privateKey[0]);
 			
 			//BigInteger C = new BigInteger("1");
 			int C = 1;
 			
 			//BigInteger M = new BigInteger("5149713131545");
-			int M = crrtChr; // I think this is where the problem is
+			int M = crrtChr; 
 			
 			//BigInteger bigN = BigInteger.valueOf(n);
 			
-			//System.out.println("d = " + d);
+			System.out.println("d = " + d);
 			
 			for(int j=0; j<d.length(); j++) {
 				char dj = d.charAt(j);
@@ -109,10 +130,11 @@ public class RSA {
 					//C = C.multiply(M).mod(bigN);
 					C = (C*M) % n;
 				}
+				System.out.println(j + " = " + C);
 			}
 			
-			//System.out.println("C = " + C);
-			//System.out.println();
+			System.out.println("C = " + C);
+			System.out.println();
 			plaintxt[i] = C;
 		}
 		
@@ -126,20 +148,21 @@ public class RSA {
 			int n = p * q;
 			
 			int w = (p-1) * (q-1);
-			//System.out.println("p = " + p);
-			//System.out.println("q = " + q);
-			//System.out.println("w = " + w);
+			System.out.println("p = " + p);
+			System.out.println("q = " + q);
+			System.out.println("w = " + w);
 			
 			int d = w;
 			while(gcd(d, w) != 1) {
 				d = (int) (Math.random() * w);
 			}
 			
+			System.out.println("d = " + d);
 			d = forceD; // this is to get same answers as practical
-			//System.out.println("d = " + d);
+			System.out.println("d = " + d);
 			
 			int e = extEuclid(w, d);
-			//System.out.println("eu = " + e);
+			System.out.println("eu = " + e);
 			
 			keys[0] = new int[]{e, n};
 			keys[1] = new int[]{d, n};
@@ -195,16 +218,22 @@ public class RSA {
 		int ri_2 = a;
 		int ri_1 = b;
 		
+		int step = 3;
+		System.out.println("step = " + step++);
 		int vi = (int) Math.floor(ri_2/ri_1);
-		//System.out.println("vi = " + vi);
+		System.out.println("(vi = ri-2/ri-1) is " + vi);
 		int ri = ri_2 - (vi * ri_1);
-		//System.out.println("ri = " + ri);
+		System.out.println("(ri = ri-2 - (vi * ri-1)) is " + ri+"="+ri_2+"-("+vi+"x"+ri_1+")");
+		System.out.println("(ri = axi-2 + byi-2) - (vi(axi-1 + byi-1))) is " + ((a*xi_2 + b*yi_2) - ((a*xi_1+yi_1*b)*vi)) + "=" + a+"x"+xi_2+"+"+b+"x"+yi_2+"-"+vi+"("+a+"x"+xi_1+"+"+b+"x"+yi_1+")");
+		System.out.println("(ri = a(xi-2-vixi1)+b(yi-2 -viyi-1)) is " + (a*(xi_2- (vi*xi_1))+ b*(yi_2 - (vi * yi_1))) + "=" + a+"x"+(xi_2- (vi*xi_1))+"+"+b+"x"+(yi_2 - (vi*yi_1)));
 		
 		if(ri < 1) {
 			return -1;
 		}
-	
+		
 		while(ri > 1) {
+			System.out.println();
+			System.out.println("step = " + step++);
 			xi = xi_2 - (vi*xi_1);
 			yi = yi_2 - (vi*yi_1);
 			
@@ -216,12 +245,13 @@ public class RSA {
 			
 			yi_2 = yi_1;
 			yi_1 = yi;
-			
-			vi = (int) Math.floor(ri_2/ri_1);
-			//System.out.println("vi = " + vi);
-			ri = ri_2 - (vi * ri_1);
-			//System.out.println("ri = " + ri);
 
+			vi = (int) Math.floor(ri_2/ri_1);
+			System.out.println("(vi = ri_2/ri_1) is " + vi);
+			ri = ri_2 - (vi * ri_1);
+			System.out.println("(ri = ri_2 - (vi * ri_1)) is " + ri+"="+ri_2+"-("+vi+"x"+ri_1+")");
+			System.out.println("(ri = axi-2 + byi-2) - (vi(axi-1 + byi-1))) is " + ((a*xi_2 + b*yi_2) - ((a*xi_1+yi_1*b)*vi)) + "=" + a+"x"+xi_2+"+"+b+"x"+yi_2+"-"+"("+a+"x"+xi_1+"+"+b+"x"+yi_1+")"+vi);
+			System.out.println("(ri = a(xi-2-vixi1)+b(yi-2 -viyi-1)) is " + (a*(xi_2- (vi*xi_1))+ b*(yi_2 - (vi * yi_1))) + "=" + a+"x"+(xi_2- (vi*xi_1))+"+"+b+"x"+(yi_2 - (vi*yi_1)));
 			//System.out.println("xi-1 = " + xi_1);
 			//System.out.println("xi-2 = " + xi_2);
 			//System.out.println("yi-1 = " + yi_1);
@@ -230,7 +260,7 @@ public class RSA {
 			//System.out.println("check x+y = " + ((a*xi_2 + b*yi_2) - ((a*xi_1+yi_1*b)*vi)));
 		}
 		yi = yi_2 - (vi*yi_1);
-		//System.out.println("e = " + yi);
+		System.out.println("e = " + yi);
 		return yi;
 	}
 	

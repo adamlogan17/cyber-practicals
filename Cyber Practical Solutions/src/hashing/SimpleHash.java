@@ -5,7 +5,9 @@ public class SimpleHash {
 	public static void main(String[] args) {
 		String plaintxt = "PKI";
 
-		System.out.println(binToHex(encrypt(plaintxt)));
+		System.out.println(encrypt(plaintxt));
+		
+		System.out.println();
 	}
 
 	public static String encrypt(String plaintxt) {
@@ -15,9 +17,9 @@ public class SimpleHash {
 			char chr = plaintxt.charAt(i);
 			
 			String binChr = addZrs(Integer.toBinaryString(chr), 8);
-			
+			System.out.print(binChr + " xor " + cyphertxt + " = ");
 			cyphertxt = xoring(binChr, cyphertxt);
-			
+			System.out.println(cyphertxt);
 		}
 		
 		return cyphertxt;

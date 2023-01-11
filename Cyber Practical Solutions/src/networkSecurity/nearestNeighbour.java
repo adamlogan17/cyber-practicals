@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class nearestNeighbour {
 
 	public static void main(String[] args) {
+		/*
 		int[] nums = {132, 135, 120, 139, 19, 117, 112, 285, 135, 103}; 
 		int[][] ans = getAllNearestNeighbour(nums, 2);
 		prnt2dArry(ans);
@@ -20,11 +21,15 @@ public class nearestNeighbour {
 		
 		int[] nums2 = {190, 127, 48, 108, 122, 190, 75, 145, 54, 69}; 
 		int[][] ans4 = getAllNearestNeighbour(nums2, 3);
-		prnt2dArry(ans4);
+		prnt2dArry(ans4);*/
+		
+		int[] nums = {132, 528, 146, 132, 146, 568, 132, 46, 146, 728}; 
+		int[][] ans = getAllNearestNeighbour(nums, 2);
+		prnt2dArry(ans);
 	}
 	
 	/**
-	 * 
+	 *  
 	 * @param nums
 	 * @param k
 	 * @param threshold
@@ -114,14 +119,6 @@ public class nearestNeighbour {
 	}
 	
 	public static String prntArry(int[] k) {
-		String result = "";
-		for(int i: k) {
-			result += i + ", ";
-		}
-		return result;
-    }
-	
-	public static String prntArry(Integer[] k) {
 		String result = "";
 		for(int i: k) {
 			result += i + ", ";

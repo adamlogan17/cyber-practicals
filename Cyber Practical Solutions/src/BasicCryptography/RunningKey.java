@@ -12,7 +12,7 @@ public class RunningKey {
 		
 		System.out.println(encrypt("WORM", alphabet1, key));
 		
-		//System.out.println(decrypt(encrypt("NETWORK", alphabet1, key), alphabet1, key));
+		System.out.println(encrypt("NETWORK", alphabet1, "PACKET"));
 	}
 	
 	public static String encrypt(String plaintxt, char[] domain, String key) {
@@ -23,6 +23,7 @@ public class RunningKey {
 			int valOfKey = getVal(domain, key.charAt(i%key.length()));
 			
 			int newVal = (valOfPlnTxt + valOfKey) % domain.length;
+			System.out.println("(" + valOfPlnTxt + "+" + valOfKey + ") % " + domain.length + " = " + newVal);
 			
 			cyphertxt += getChr(domain, newVal);
 		}

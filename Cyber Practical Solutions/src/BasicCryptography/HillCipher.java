@@ -39,7 +39,7 @@ public class HillCipher {
 			}
 		}
 		
-		System.out.println(plaintxt.length());
+		//System.out.println(plaintxt.length());
 		
 		for(int i=0; i<plaintxt.length(); i = i+key[0].length) {
 			int[] plainVal = new int[key[0].length];
@@ -57,14 +57,20 @@ public class HillCipher {
 
 			for(int keyRow = 0; keyRow<plainVal.length; keyRow++) {
 				int newVal = 0;
+				System.out.println();
+				System.out.println("New Row:");
 				for(int j=0; j<plainVal.length; j++) {
 					//System.out.println("plainVal[j] = " + plainVal[j]);
 					//System.out.println("key[keyRow][j] = " + key[keyRow][j]);
+					System.out.println(plainVal[j] + "x" + key[keyRow][j] + " = " + plainVal[j]*key[keyRow][j]);
+					System.out.print(newVal + "+" + plainVal[j]*key[keyRow][j] + " = ");
 					newVal += plainVal[j]*key[keyRow][j];
-					//System.out.println("newVal = " + newVal);
-					//System.out.println();
+					System.out.println(newVal);
+					
+					System.out.println();
 				}
 				cypherText += domain[newVal % 26];
+				System.out.println(newVal + "%26 = " + newVal % 26);
 			}
 		}
 		

@@ -22,7 +22,9 @@ public class ParameterBased {
 		ArrayList<Integer> ans3 = statAnomalyIDS(nums2, 0.005, 56.0, 115.0);
 		prntArryLst(ans3);
 		
-		// make a statAnomalyIDS which rounds up at every stage based on a parameter
+		System.out.println();
+		ArrayList<Integer> ans5 = statAnomalyIDS(nums2, 0.005, 56.0, 115.0, 4);
+		prntArryLst(ans5);
 	}
 
 	private static ArrayList<Integer> statAnomalyIDS(int[] sizes, double threshold) {
@@ -83,25 +85,36 @@ public class ParameterBased {
 		ArrayList<Integer> anomalies = new ArrayList<Integer>();
 
 		System.out.println("mean = " + mean);
+		
+		double normalDist = getNormalDist(sd);
+		normalDist = Math.round(normalDist * Math.pow(10, dp)) / Math.pow(10, dp);
+		System.out.println("normal distribution = " + normalDist);
+		
 		for(int i=0; i<sizes.length; i++) {
-			double diff = mean - sizes[i];
+			//double diff = mean - sizes[i];
+			System.out.println("For ID " + i+1);
+			double diff = sizes[i] - mean;
 			diff = Math.round(diff * Math.pow(10, dp)) / Math.pow(10, dp);
-			System.out.println((i + 1) + " diff = " + diff);
+			System.out.println("Difference:");
+			System.out.println(sizes[i] + "-" + mean + " = " + diff);
 			
 			double diffSigma = diff/sd;
 			diffSigma = Math.round(diffSigma * Math.pow(10, dp)) / Math.pow(10, dp);
-			System.out.println((i + 1) + " afterSd = " + diffSigma);
+			System.out.println("DiffSigma:");
+			System.out.println(diff + "/" + sd + " = " + diffSigma);
 			
 			double sqrd = diffSigma * diffSigma;
 			sqrd = Math.round(sqrd * Math.pow(10, dp)) / Math.pow(10, dp);
-			System.out.println((i + 1) + " sqrd = " + sqrd);
+			System.out.println("Squared:");
+			System.out.println(diffSigma + "**2 = " + sqrd);
 			
 			double beforeExp = sqrd * -0.5;
-			beforeExp = Math.round(beforeExp * Math.pow(10, dp)) / Math.pow(10, dp);
 			
-			double prob = Math.exp(beforeExp) * getNormalDist(sd);
+			double prob = Math.exp(beforeExp) * normalDist;
 			prob = Math.round(prob * Math.pow(10, dp)) / Math.pow(10, dp);
-			System.out.println((i + 1) + " = " + prob);
+			System.out.println("Exp");
+			System.out.println("exp[" + sqrd + "x" + "-1/2" + "]" + "x" + normalDist + " = " + prob);
+
 			if(prob < threshold) {
 				anomalies.add(i + 1);
 			}

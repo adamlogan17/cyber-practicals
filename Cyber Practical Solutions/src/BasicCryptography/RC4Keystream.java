@@ -3,26 +3,40 @@ package BasicCryptography;
 public class RC4Keystream {
 
 	public static void main(String[] args) {
+		// ksa
 		int[] key = {10, 12, 34, 16, 24};
 		int[] S = new int[256];
 		
 		for(int i=0; i<S.length; i++) {
 			S[i] = i;
 		}
-		
-		//prntArry(S);
-		
-		
 		ksa(key, S);
-		
-		//int[] key2 = {6, 120, 24, 12, 10};
-		//ksa(key2, S, 1, 6);
-		
 		prntArry(S);
 		
-		int[] S2 = {3, 6, 1, 7, 2, 4, 0, 5};
-		//System.out.println("-------");
-		//prntArry(prga(S2, 1, 2, 7));
+		// ksa
+		int[] key2 = {3, 123, 28, 12, 18};
+		int[] S2 = new int[256];
+		
+		for(int i=0; i<S2.length; i++) {
+			S2[i] = i;
+		}
+		ksa(key2, S2);
+		prntArry(S2);
+		
+		// ksa
+		int[] key3 = {6, 120, 24, 12, 10};
+		int[] S4 = new int[256];
+		
+		for(int i=0; i<S4.length; i++) {
+			S4[i] = i;
+		}
+		ksa(key3, S4, 1, 6);
+		System.out.println(S4[1]);
+		
+		//prga
+		int[] S3 = {3, 6, 1, 7, 2, 4, 0, 5};
+		System.out.println("-------");
+		prntArry(prga(S3, 1, 2, 7));
 		
 	}
 	
@@ -42,8 +56,6 @@ public class RC4Keystream {
 		int temp = S[i];
 		S[i] = S[j];
 		S[j] = temp;
-		
-		prntArry(S);
 	}
 	
 	public static int[] prga(int[] S, int lenOfPlaintxt, int i, int j) {

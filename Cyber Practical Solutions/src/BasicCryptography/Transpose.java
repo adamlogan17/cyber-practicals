@@ -2,9 +2,14 @@ package BasicCryptography;
 
 public class Transpose {
 
+	// this will crash if the length of the key is not fully divisible by the 
+	// length of the cypher text (to fix this add padding)
 	public static void main(String[] args) {
 		int[] key = {3,2,4,1};
-		System.out.println(transpose("ASYMMETRIC", key));
+		System.out.println(transpose("ASYMMETRIC11", key));
+		
+		int[] key2 = {2,1,4,3};
+		System.out.println(transpose("PUBLICKEYPAD", key2));
 		
 		// to decrypt just use the 'transpose' function again
 	}
@@ -21,18 +26,13 @@ public class Transpose {
 			
 			String[] permutedBlock = permute(block, key);
 			for(int j=0; j<permutedBlock.length; j++) {
+				System.out.print(permutedBlock[j]);
 				cyphertxt += permutedBlock[j];
 			}
+			System.out.println();
 		}
 		return cyphertxt;
 	}
-
-    public static void prntArry(String[] k) {
-		for(String i: k) {
-			System.out.print(i);
-		}
-		System.out.println();
-    }
     
     public static String[] permute(String[] input, int p[]) {
     	String[] result = new String[p.length];

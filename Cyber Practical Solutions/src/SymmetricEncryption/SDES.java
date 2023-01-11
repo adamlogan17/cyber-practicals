@@ -3,7 +3,7 @@ package SymmetricEncryption;
 public class SDES {
 
 	public static void main(String[] args) {
-		String plain = "ENIGMACODE";
+		String plain = "Malware";
 		
 		String k = "1111011000";
 		
@@ -12,73 +12,20 @@ public class SDES {
 		//System.out.println("end = " + encrypt(plain, k));
 		
 		//System.out.println(decrypt("y", k));
+		
+		/*
 	    int S0[][] = {{ 1, 0, 3, 2},
 	    		{ 3, 2, 1, 0},
 	    		{ 0, 2, 1,3},
 	    		{ 3, 1, 3, 2}};
 	    
 		System.out.println(sBoxing("10011101", S0));
-	}
-	
-	public static String decrypt(String cyphertxt, String key) {
-		String plaintxt = "";
 		
-		int IP[] = { 2, 6, 3, 1, 4, 8, 5, 7};
-		int IpMinus1[] = {4, 1, 3, 5, 7, 2, 8, 6};
+		prntArry(keyGeneration("1101011001"));*/
 		
-		String[] keys = keyGeneration(key);
+		//encrypt(plain, k);
 		
-		String k1 = keys[0];
-		String k2 = keys[1];
-		System.out.println("k1 = " + k1);
-		System.out.println("k2 = " + k2);
-		
-		for(int i=0; i<cyphertxt.length(); i++) {
-			String currentChr = Integer.toBinaryString((int) cyphertxt.charAt(i));
-
-			currentChr = addZrs(currentChr, 8);
-			
-			System.out.println("currentChr = " + currentChr);
-			
-			String postIP = permute(currentChr, IP);
-			
-			System.out.println("IP = " + postIP);
-			
-			String postFRK2 = f(postIP.substring(4,8), k2);
-			
-			System.out.println("postFRK2 = " + postFRK2);
-			
-			String postFk2 = xoring(postIP.substring(0,4), postFRK2) + postIP.substring(4,8);
-			
-			System.out.println("postFk2 = " + postFk2);
-			
-			String postSwap = postFk2.substring(4,8) + postFk2.substring(0,4);
-			
-			System.out.println("postSwap = " + postSwap);
-			
-			// still need to do frk2 and fk2
-			String postFRK1 = f(postSwap.substring(4,8), k1);
-			
-			System.out.println("postFRK1 = " + postFRK2);
-			
-			String postFk1 = xoring(postSwap.substring(0,4), postFRK1) + postSwap.substring(4,8);
-			
-			System.out.println("postFk1 = " + postFk1);
-			
-			// still need to do ip-1
-			String postIpMinus1 = permute(postFk1, IpMinus1);
-			
-			System.out.println("postIpMinus1/result = " + addZrs(postIpMinus1, 8));
-			
-			System.out.println();
-			System.out.println();
-			
-			plaintxt += Character.toString(Integer.parseInt(postIpMinus1, 2));
-			//plaintxt += Character.toString(Integer.parseInt(currentChr, 2));
-		}
-		
-		
-		return plaintxt;
+		System.out.println("Answer = " + f("1110", "11010101"));
 	}
 	
 	public static String encrypt(String plaintxt, String key) {
@@ -86,19 +33,24 @@ public class SDES {
 		int IP[] = { 2, 6, 3, 1, 4, 8, 5, 7};
 		int IpMinus1[] = {4, 1, 3, 5, 7, 2, 8, 6};
 		
+		System.out.println("Key Generation:");
+		System.out.println("Original Key = " + key);
 		String[] keys = keyGeneration(key);
 		
 		String k1 = keys[0];
 		String k2 = keys[1];
 		System.out.println("k1 = " + k1);
 		System.out.println("k2 = " + k2);
+		System.out.println();
 		
+		System.out.println("Main Encryption:");
 		for(int i=0; i<plaintxt.length(); i++) {
+			System.out.println("Character = " + plaintxt.charAt(i));
 			String currentChr = Integer.toBinaryString((int) plaintxt.charAt(i));
 
 			currentChr = addZrs(currentChr, 8);
 			
-			System.out.println("currentChr = " + currentChr);
+			System.out.println("current plaintext = " + currentChr);
 			
 			String postIP = permute(currentChr, IP);
 			
@@ -140,6 +92,67 @@ public class SDES {
 		return cyphertxt;
 	}
 	
+	public static String decrypt(String cyphertxt, String key) {
+		String plaintxt = "";
+		
+		int IP[] = { 2, 6, 3, 1, 4, 8, 5, 7};
+		int IpMinus1[] = {4, 1, 3, 5, 7, 2, 8, 6};
+		
+		String[] keys = keyGeneration(key);
+		
+		String k1 = keys[0];
+		String k2 = keys[1];
+		System.out.println("k1 = " + k1);
+		System.out.println("k2 = " + k2);
+		
+		for(int i=0; i<cyphertxt.length(); i++) {
+			String currentChr = Integer.toBinaryString((int) cyphertxt.charAt(i));
+
+			currentChr = addZrs(currentChr, 8);
+			
+			//System.out.println("currentChr = " + currentChr);
+			
+			String postIP = permute(currentChr, IP);
+			
+			//System.out.println("IP = " + postIP);
+			
+			String postFRK2 = f(postIP.substring(4,8), k2);
+			
+			//System.out.println("postFRK2 = " + postFRK2);
+			
+			String postFk2 = xoring(postIP.substring(0,4), postFRK2) + postIP.substring(4,8);
+			
+			//System.out.println("postFk2 = " + postFk2);
+			
+			String postSwap = postFk2.substring(4,8) + postFk2.substring(0,4);
+			
+			//System.out.println("postSwap = " + postSwap);
+			
+			// still need to do frk2 and fk2
+			String postFRK1 = f(postSwap.substring(4,8), k1);
+			
+			System.out.println("postFRK1 = " + postFRK2);
+			
+			String postFk1 = xoring(postSwap.substring(0,4), postFRK1) + postSwap.substring(4,8);
+			
+			System.out.println("postFk1 = " + postFk1);
+			
+			// still need to do ip-1
+			String postIpMinus1 = permute(postFk1, IpMinus1);
+			
+			//System.out.println("postIpMinus1/result = " + addZrs(postIpMinus1, 8));
+			
+			System.out.println();
+			System.out.println();
+			
+			plaintxt += Character.toString(Integer.parseInt(postIpMinus1, 2));
+			//plaintxt += Character.toString(Integer.parseInt(currentChr, 2));
+		}
+		
+		
+		return plaintxt;
+	}
+	
 	public static String f(String R, String k) {
 		String result = "";
 		int EP[] = { 4, 1, 2, 3, 2, 3, 4, 1};
@@ -160,21 +173,23 @@ public class SDES {
 		
 		postEP = addZrs(postEP, 8);
 		
-		//System.out.println("(In f) EP = " + postEP);
+		System.out.println("(In f) EP = " + postEP);
 		
 		String postXor = xoring(postEP, k);
 		
-		//System.out.println("(In f) XOR = " + postXor);
+		postXor = "01010111";
+		
+		System.out.println("(In f) " + postEP + " XOR " + k + " = " + postXor);
 		
 		String postSBox = sBoxing(postXor.substring(0, 4), S0) + sBoxing(postXor.substring(4, 8), S1);
 		
-		//System.out.println("(In f) postSBox = " + postSBox);
+		System.out.println("(In f) postSBox = " + postSBox);
 		
 		String postP4 = permute(postSBox, P4);
 		
 		postP4 = addZrs(postP4, 4);
 		
-		//System.out.println("(In f) postP4 = " + postP4);
+		System.out.println("(In f) postP4 = " + postP4);
 		
 		return postP4;
 	}
@@ -186,13 +201,14 @@ public class SDES {
 		
 		int col = Integer.parseInt(Character.toString(input.charAt(1)) + Character.toString(input.charAt(2)), 2);
 		
-		//System.out.println("(in sboxing) col = " + col);
-		//System.out.println("(in sboxing) row = " + row);
-		//System.out.println("(in sboxing) s = " + S[row][col]);
+		System.out.println("(in sboxing) col = " + col);
+		System.out.println("(in sboxing) row = " + row);
+		System.out.println("(in sboxing) s = " + S[row][col]);
 		
 		result = Integer.toBinaryString(S[row][col]);
 		
 		result = addZrs(result, 2);
+		System.out.println("(in sboxing) s in binary = " + result);
 		
 		return result;
 	}
@@ -225,9 +241,16 @@ public class SDES {
 		int[] p8 = { 6, 3, 7, 4, 8, 5, 10, 9};
 		
 		String postP10 = permute(orgK, p10);
+		postP10 = addZrs(postP10, 10);
+		System.out.println("p10(K) = " + postP10);
 	
 		String firstHalf = leftShift(postP10.substring(0, 5), 1);
 		String secondHalf = leftShift(postP10.substring(5, 10), 1);
+		firstHalf = addZrs(firstHalf, 5);
+		System.out.println("First half of Shift(p10(K)) = " + firstHalf);
+		secondHalf = addZrs(secondHalf, 5);
+		System.out.println("Second half of Shift(p10(K)) = " + firstHalf);
+		System.out.println("Shift(p10(K)) = " + firstHalf + secondHalf);
 		
 		keys[0] = permute(firstHalf + secondHalf, p8);
 		
@@ -289,5 +312,12 @@ public class SDES {
 			binaryStr = "0" + binaryStr;
 		}
     	return binaryStr;
+    }
+    
+    public static void prntArry(String[] k) {
+		for(String i: k) {
+			System.out.print(i + ",");
+		}
+		System.out.println();
     }
 }
