@@ -1,2 +1,2 @@
 # cyber-practicals
-This is the practicals for the module CSC2056 Cyber Security
+This is various solutions to problems, which I had to solve during the course of my module CSC2056 Cyber Security 
