@@ -28,6 +28,13 @@ public class HillCipher {
 
 	}
 	
+	/**
+	 * Encrypts a message using the hill cipher
+	 * @param plaintxt - the text to be encrypted (must only include values from the domain)
+	 * @param domain - an array of characters, with the indices corresponding to their position
+	 * @param key - a 2D array of which values to substitute 
+	 * @return - the encrypted text
+	 */
 	public static String encrypt(String plaintxt, char[] domain, float[][] key) {
 		String cypherText = "";		
 		
@@ -57,26 +64,29 @@ public class HillCipher {
 
 			for(int keyRow = 0; keyRow<plainVal.length; keyRow++) {
 				int newVal = 0;
-				System.out.println();
-				System.out.println("New Row:");
+				// System.out.println();
+				// System.out.println("New Row:");
 				for(int j=0; j<plainVal.length; j++) {
-					//System.out.println("plainVal[j] = " + plainVal[j]);
-					//System.out.println("key[keyRow][j] = " + key[keyRow][j]);
-					System.out.println(plainVal[j] + "x" + key[keyRow][j] + " = " + plainVal[j]*key[keyRow][j]);
-					System.out.print(newVal + "+" + plainVal[j]*key[keyRow][j] + " = ");
+					// System.out.println("plainVal[j] = " + plainVal[j]);
+					// System.out.println("key[keyRow][j] = " + key[keyRow][j]);
+					// System.out.println(plainVal[j] + "x" + key[keyRow][j] + " = " + plainVal[j]*key[keyRow][j]);
+					// System.out.print(newVal + "+" + plainVal[j]*key[keyRow][j] + " = ");
 					newVal += plainVal[j]*key[keyRow][j];
-					System.out.println(newVal);
+					// System.out.println(newVal);
 					
-					System.out.println();
+					// System.out.println();
 				}
 				cypherText += domain[newVal % 26];
-				System.out.println(newVal + "%26 = " + newVal % 26);
+				// System.out.println(newVal + "%26 = " + newVal % 26);
 			}
 		}
 		
 		return cypherText;
 	}
 	
+	/*
+	 * Currently working on decryption for hill cypher
+	 */
 	public static String decrypt(String cypherText, char[] domain, float[][] key) {
 		String plainTxt = "";
 		
