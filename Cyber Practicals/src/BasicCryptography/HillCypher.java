@@ -1,6 +1,6 @@
 package BasicCryptography;
 
-public class HillCipher {
+public class HillCypher {
 
 	public static void main(String[] args) {
 		float[][] key = {{15, 10, 14},
