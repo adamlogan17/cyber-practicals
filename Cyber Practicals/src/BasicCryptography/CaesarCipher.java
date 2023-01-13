@@ -12,12 +12,19 @@ public class CaesarCipher {
 
 		System.out.println(decrypt("E", alphabet1, 7));
 		
-		String plntxt = "HELLOZ";
+		String plntxt = "HELLO";
 		String cipher = encrypt(plntxt, alphabet1, key);
 		System.out.println(cipher);
 		System.out.println(decrypt(cipher, alphabet1, key));
 	}
 	
+	/**
+	 * Encrypts a message using a ceaser cipher
+	 * @param plaintxt - the text to be encrypted (must only include values from the domain)
+	 * @param domain - an array of characters, with the indices corresponding to their position
+	 * @param key - the value to shift the plain text by
+	 * @return - the encrypted text
+	 */
 	public static String encrypt(String plaintxt, char[] domain, int key) {
 		String cypherText = "";
 		
@@ -35,6 +42,13 @@ public class CaesarCipher {
 		return cypherText;
 	}
 	
+	/**
+	 * Decrypts a message using a ceaser cipher
+	 * @param plaintxt - the encrypted text (must only include values from the domain)
+	 * @param domain - the domain used to encrypt the text
+	 * @param key - the shift value used when the text was encrypted
+	 * @return - the decrypted text
+	 */
 	public static String decrypt(String cypherText, char[] domain, int key) {
 		String plainTxt = "";
 		
