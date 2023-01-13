@@ -337,6 +337,10 @@ public class AES {
 		return Integer.toBinaryString(Integer.parseInt(hex, 16));
 	}
 	
+	/**
+	 * Prints the elements of an array
+	 * @param k - an array of strings
+	 */
     public static void prntArry(String[] k) {
 		for(String i: k) {
 			System.out.print(i + ",");
