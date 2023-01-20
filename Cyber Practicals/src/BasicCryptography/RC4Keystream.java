@@ -76,6 +76,10 @@ public class RC4Keystream {
 		return K;
 	}
 	
+	/**
+	 * Prints the elements of an array
+	 * @param k - an integer array
+	 */
     public static void prntArry(int[] k) {
 		for(int i: k) {
 			System.out.print(i + ",");
